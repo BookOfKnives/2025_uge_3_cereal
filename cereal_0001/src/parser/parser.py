@@ -37,14 +37,17 @@ def create_mysql_insertion(row):
     (`name`, `mfr`, `type`, `calories`, `protein`, `fat`, `sodium`,
      `fiber`, `carbo`, `sugars`, `potassium`, `vitamins`, `shelf`, `weight`, `cups`, `rating`) 
      VALUES ("%s", '%s', '%s', '%d', '%d', '%d', '%d', '%f', '%f', '%d', '%d', '%d', '%d', '%f', '%f', '%f');""" % (row[0], row[1], row[2], int(row[3]), int(row[4]), int(row[5]), float(row[6]), float(row[7]), float(row[8]), int(row[9]), int(row[10]), int(row[11]), int(row[12]), float(row[13]), float(row[14]), float(row[15]))
-    print("inside create_mysel_____________, sql2 string:", sql2)
+    #print("inside create_mysel_____________, sql2 string:", sql2)
     return sql2
 
+'''This spamreader skips the first two rows in the csv file, 
+& uses the create_mysql_insertion() method to create the mysql strings,
+which it then commits.'''
 with open('cereal_0001/data/cereal/Cereal.csv', newline='') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
     counter = 0
     for row in spamreader:
-        print(counter)
+        #print(counter)
         if counter == 0:
             pass
             counter += 1
@@ -52,8 +55,7 @@ with open('cereal_0001/data/cereal/Cereal.csv', newline='') as csvfile:
             counter += 1
             pass
         else:
-        # print(', '.join(row))
-            print(' '.join(row))
+            #print(' '.join(row))
             counter += 1
             #create sql statement
             sql = create_mysql_insertion(row)
@@ -62,4 +64,3 @@ with open('cereal_0001/data/cereal/Cereal.csv', newline='') as csvfile:
             # print("val from parser, type:", type(val))
             mycursor.execute(sql)
             cnx.commit()
-        #tag dette og smid det i en database
